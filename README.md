@@ -19,17 +19,17 @@ To clone this project from main branch and run it.
 12. start exploring from admin perspective here - http://127.0.0.1:5500/frontend/admin-login.html
 
 Customer URLs
-1. home page - http://127.0.0.1:5500/frontend/index.html
-2. menu page - http://127.0.0.1:5500/frontend/shop.html
-3. services page - http://127.0.0.1:5500/frontend/shop.html (same menu page)
-4. my orders page - http://127.0.0.1:5500/frontend/orders.html
-5. profile page - http://127.0.0.1:5500/frontend/profile.html
-6. cart page - http://127.0.0.1:5500/frontend/cart.html
-7. login - http://127.0.0.1:5500/frontend/login.html
-8. register - http://127.0.0.1:5500/frontend/register.html
+1. home page - http://127.0.0.1:5500/frontend/index.html - landing page
+2. menu page - http://127.0.0.1:5500/frontend/shop.html - menu items is listed here and you can add them to cart
+3. services page - http://127.0.0.1:5500/frontend/shop.html (same menu page) - menu items is listed here and you can add them to cart
+4. my orders page - http://127.0.0.1:5500/frontend/orders.html - my orders are listed here (feedback can be added once the order is completed)
+5. profile page - http://127.0.0.1:5500/frontend/profile.html - my profile page
+6. cart page - http://127.0.0.1:5500/frontend/cart.html - list of items added to cart (coupon "SAVE10" can be used to get 10% off) and place order
+7. login - http://127.0.0.1:5500/frontend/login.html - user login page
+8. register - http://127.0.0.1:5500/frontend/register.html - user register page
 
 Admin URLs 
-1. dashboard page - http://127.0.0.1:5500/frontend/admin-dashboard.html
-2. products page - http://127.0.0.1:5500/frontend/admin-products.html
-3. orders page - http://127.0.0.1:5500/frontend/admin-orders.html
-4. admin login - http://127.0.0.1:5500/frontend/admin-login.html
+1. dashboard page - http://127.0.0.1:5500/frontend/admin-dashboard.html - admin dashboard page
+2. products page - http://127.0.0.1:5500/frontend/admin-products.html - admin products page where admin can ADD, UPDATE, VIEW and DELETE the products (Image of product should be added as URL of that image)
+3. orders page - http://127.0.0.1:5500/frontend/admin-orders.html - orders page where admin can view all orders and complete or cancel the order and also view feedbacks
+4. admin login - http://127.0.0.1:5500/frontend/admin-login.html - admin login page (username - admin, password - 12345)
