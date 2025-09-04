@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Orders - Barab Restaurant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="assets/css/app.min.css" rel="stylesheet" />
+    <link href="assets/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <style>
+      #filter-status {
+        min-width: 150px;
+        display: inline-block;
+        margin-bottom: 1rem;
+      }
+      #orders-table th,
+      #orders-table td {
+        vertical-align: middle;
+      }
+      #orders-table td.products-cell {
+        max-width: 350px;
+        white-space: normal;
+        line-height: 1.3;
+      }
+      #pagination {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 1rem;
+      }
+      #pagination button {
+        min-width: 90px;
+      }
+      #pagination-info {
+        margin: 0 1rem;
+      }
+      select.status-select {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ccc;
+      }
+      .star-rating {
+        color: #fcba03;
+        font-size: 1.3em;
+      }
+      .star-rating.empty {
+        color: #e0e0e0;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="th-header header-default">
+      <div class="header-top d-sm-block d-none">
+        <div class="container">
+          <div
+            class="row justify-content-center justify-content-lg-between align-items-center gy-2"
+          >
+            <div class="col-auto">
+              <div class="header-links">
+                <ul>
+                  <li class="d-none d-xl-inline-block">
+                    <i class="far fa-location-dot"></i>8502 Preston Rd.
+                    Inglewood, Maine 98380
+                  </li>
+                  <li class="d-none d-md-inline-block">
+                    <i class="far fa-envelope-open"></i
+                    ><a href="mailto:info@barab.com">info@barab.com</a>
+                  </li>
+                  <li class="d-none d-sm-inline-block">
+                    <i class="far fa-clock"></i>Opening Hour: Mon to Sat - 9am
+                    to 5pm
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+              <div class="header-links">
+                <ul>
+                  <li class="d-none d-xxl-inline-block header-contact">
+                    <i class="far fa-phone"></i
+                    ><a href="tel:26365479875">+263 6547 9875</a>
+                  </li>
+                  <li>
+                    <div class="th-social">
+                      <a href="https://www.facebook.com/"
+                        ><i class="fab fa-facebook-f"></i
+                      ></a>
+                      <a href="https://www.twitter.com/"
+                        ><i class="fab fa-twitter"></i
+                      ></a>
+                      <a href="https://www.linkedin.com/"
+                        ><i class="fab fa-linkedin-in"></i
+                      ></a>
+                      <a href="https://www.whatsapp.com/"
+                        ><i class="fab fa-whatsapp"></i
+                      ></a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sticky-wrapper">
+        <div class="menu-area">
+          <div class="container">
+            <div class="row align-items-center justify-content-between">
+              <div class="col-auto">
+                <div class="header-logo">
+                  <a href="index.html"
+                    ><img src="assets/img/logo.svg" alt="Barab"
+                  /></a>
+                </div>
+              </div>
+              <div class="col-auto">
+                <nav class="main-menu d-none d-lg-inline-block">
+                  <ul>
+                    <li class="menu-item">
+                      <a href="index.html">Home</a>
+                    </li>
+                    <li><a href="admin-products.html">Products</a></li>
+                    <li><a href="admin-orders.html">Orders</a></li>
+                  </ul>
+                </nav>
+                <div class="header-button d-flex d-lg-none">
+                  <button type="button" class="icon-btn sideMenuToggler">
+                    <span class="badge">5</span>
+                    <i class="fa-regular fa-cart-shopping"></i>
+                  </button>
+                  <button type="button" class="icon-btn th-menu-toggle">
+                    <i class="far fa-bars"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col-auto d-none d-xl-block">
+                <div class="header-button">
+                  <a href="#" class="th-btn btn-mask" id="adminLogoutBtn"
+                    >Logout</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div
+      class="breadcumb-wrapper overflow-hidden"
+      data-bg-src="assets/img/bg/breadcumb-bg.jpg"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="breadcumb-content">
+              <h1 class="breadcumb-title">Admin - Orders</h1>
+              <ul class="breadcumb-menu">
+                <li><a href="admin-dashboard.html">Admin Home</a></li>
+                <li>Orders</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-top space-extra-bottom">
+      <div class="container">
+        <div
+          class="d-flex align-items-center justify-content-between mb-3"
+          style="gap: 1.5rem"
+        >
+          <h2 class="h4 summary-title mb-0" style="white-space: nowrap">
+            All Orders
+          </h2>
+          <div>
+            <select id="filter-status" class="form-select">
+              <option value="All" selected>All</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table id="orders-table" class="cart_table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Products (Name × Qty @ Price)</th>
+                <th>Total Price</th>
+                <th>Ordered By</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Feedback</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="pagination">
+          <button class="th-btn style2" id="prev-page">Prev</button>
+          <span id="pagination-info"></span>
+          <button class="th-btn style2" id="next-page">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer-wrapper footer-default overflow-hidden">
+      <div
+        class="shape-mockup d-none d-xxl-block wow fadeinup"
+        data-top="22%"
+        data-left="0%"
+      >
+        <img src="assets/img/footer/footer-left.png" alt="img" />
+      </div>
+      <div
+        class="shape-mockup moving d-none d-lg-block"
+        data-top="10%"
+        data-right="4%"
+      >
+        <img src="assets/img/shape/footer-top.png" alt="img" />
+      </div>
+      <div class="footer-top">
+        <div class="container">
+          <div class="row gy-40 align-items-center justify-content-center">
+            <div class="col-xl-12">
+              <div class="subscribe-box">
+                <h2 class="footer-top_title">Let’s Talk With Us</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-area">
+        <div class="container">
+          <div class="row gy-4 justify-content-center">
+            <div class="col-md-12 col-lg-6 col-xl-4">
+              <div class="widget footer-widget">
+                <h3 class="widget_title">Contact Info</h3>
+                <div class="icon">
+                  <img src="assets/img/icon/f-title-icon.png" alt="icon" />
+                </div>
+                <div class="th-widget-contact">
+                  <div class="info-box">
+                    <p class="info-box_text">
+                      <span>Phone:</span>
+                      <a href="tel:256369854789" class="info-box_link"
+                        >+256 3698 54789</a
+                      >
+                      <a href="tel:16354786985" class="info-box_link"
+                        >+16354786985</a
+                      >
+                    </p>
+                    w
+                  </div>
+                  <div class="info-box">
+                    <p class="info-box_text">
+                      <span>Email:</span>
+                      <a href="mailto:info@barab.com" class="info-box_link"
+                        >info@barab.com</a
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-4">
+              <div class="widget widget_nav_menu footer-widget">
+                <h3 class="widget_title">Quick Links</h3>
+                <div class="icon">
+                  <img src="assets/img/icon/f-title-icon.png" alt="icon" />
+                </div>
+                <div class="menu-all-pages-container">
+                  <ul class="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Menu</a></li>
+                    <li><a href="order.html">My Orders</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-4">
+              <div class="widget widget_download footer-widget">
+                <h4 class="widget_title">Download</h4>
+                <div class="icon">
+                  <img src="assets/img/icon/f-title-icon.png" alt="icon" />
+                </div>
+                <div class="download-widget-wrap">
+                  <a href="https://www.apple.com/app-store/"
+                    ><img src="assets/img/icon/f-app-store.png" alt="img" /> </a
+                  ><a href="https://play.google.com/store/games?device=windows"
+                    ><img src="assets/img/icon/f-google-store.png" alt="img"
+                  /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="copyright-wrap">
+        <div class="container">
+          <div class="copy-right-content">
+            <div class="copyright-text-wrap">
+              <p class="copyright-text">
+                <i class="fal fa-copyright"></i> Copyright 2025
+                <a href="index.html">Barab</a>. All Rights Reserved.
+              </p>
+            </div>
+            <div class="footer-bottom-logo">
+              <a href="index.html"
+                ><img src="assets/img/logo.svg" alt="img"
+              /></a>
+            </div>
+            <div class="footer-card">
+              <img src="assets/img/icon/f-card.png" alt="img " />
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const isAdmin = localStorage.getItem("isAdmin");
+
+        if (parseInt(isAdmin) !== 1) {
+          // Not admin, redirect to homepage
+          window.location.href = "index.html";
+        }
+      });
+      let orders = [];
+      let page = 1;
+      const pageSize = 5;
+      let totalCount = 0;
+      let selectedStatus = "All";
+
+      document
+        .getElementById("filter-status")
+        .addEventListener("change", (e) => {
+          selectedStatus = e.target.value;
+          page = 1;
+          loadOrders();
+        });
+
+      async function loadOrders() {
+        let url = `http://localhost:3000/api/order?page=${page}&page_size=${pageSize}`;
+        if (selectedStatus !== "All") {
+          url += `&status=${encodeURIComponent(selectedStatus)}`;
+        }
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
+          const data = await res.json();
+
+          orders = data.orders || [];
+          totalCount = data.totalCount || 0;
+          renderOrders();
+          updatePagination();
+        } catch (e) {
+          console.error(e);
+          document.querySelector(
+            "#orders-table tbody"
+          ).innerHTML = `<tr><td colspan="7">Error loading orders: ${e.message}</td></tr>`;
+        }
+      }
+
+      function renderOrders() {
+        const tbody = document.querySelector("#orders-table tbody");
+        tbody.innerHTML = "";
+        if (!orders || orders.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7">No orders found.</td></tr>`;
+          return;
+        }
+
+        orders.forEach((order) => {
+          const productsText = order.order_items
+            .map((i) => {
+              const price =
+                typeof i.price === "number" ? i.price.toFixed(2) : "N/A";
+              return `${i.product_name} × ${i.quantity} @ ${price}`;
+            })
+            .join(", ");
+
+          const feedback = order.feedback || null;
+          const hasFeedback = feedback !== null;
+          const rating = hasFeedback && feedback.rating ? feedback.rating : 0;
+
+          const starsHtml = `
+            <span style="white-space:nowrap;">
+              ${Array.from(
+                { length: 5 },
+                (_, i) =>
+                  `<span style="display:inline-block;color:${
+                    i < rating ? "#fcba03" : "#e0e0e0"
+                  };font-size:1.3em;">&#9733;</span>`
+              ).join("")}
+            </span>
+          `;
+
+          const feedbackHtml = hasFeedback
+            ? `<span style="white-space:nowrap;">
+            ${Array.from(
+              { length: 5 },
+              (_, i) =>
+                `<span style="display:inline-block;color:${
+                  i < rating ? "#fcba03" : "#e0e0e0"
+                };font-size:1.3em;">&#9733;</span>`
+            ).join("")}
+        </span>
+        <div><small>${
+          feedback.comments || "<em>No comments</em>"
+        }</small></div>`
+            : "No feedback yet";
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+              <td>${order.id}</td>
+              <td class="products-cell">${productsText}</td>
+              <td>Rs ${
+                order.total_amount ? order.total_amount.toFixed(2) : "0.00"
+              }</td>
+              <td>${order.user.name}</td>
+              <td>
+                <select class="status-select" data-id="${order.id}">
+                  <option value="pending" ${
+                    order.status === "Pending" ? "selected" : ""
+                  }>Pending</option>
+                  <option value="Completed" ${
+                    order.status === "Completed" ? "selected" : ""
+                  }>Completed</option>
+                  <option value="Cancelled" ${
+                    order.status === "Cancelled" ? "selected" : ""
+                  }>Cancelled</option>
+                </select>
+              </td>
+              <td>${new Date(order.created_at).toLocaleString()}</td>
+              <td>${new Date(order.updated_at).toLocaleString()}</td>
+              <td>${feedbackHtml}</td>
+            `;
+          tbody.appendChild(tr);
+        });
+      }
+      // Listen for change events on the table body for any status dropdown
+      document
+        .querySelector("#orders-table tbody")
+        .addEventListener("change", async function (e) {
+          if (!e.target.classList.contains("status-select")) return; // only status selects
+
+          const orderId = e.target.dataset.id;
+          const newStatus = e.target.value;
+
+          try {
+            const res = await fetch(
+              `http://localhost:3000/api/order/${orderId}`,
+              {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: newStatus }),
+              }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok)
+              throw new Error(data.error || "Failed to update status");
+
+            // Optionally reload orders to refresh data or update UI
+            alert(`Order #${orderId} status updated to ${newStatus}`);
+            loadOrders();
+          } catch (error) {
+            console.log(error.message);
+
+            alert(`Error updating order status: ${error.message}`);
+            // Optionally reload orders to revert UI changes
+            loadOrders();
+          }
+        });
+
+      function updatePagination() {
+        const totalPages = Math.ceil(totalCount / pageSize) || 1;
+        document.getElementById(
+          "pagination-info"
+        ).innerText = `Page ${page} of ${totalPages} (Total: ${totalCount})`;
+
+        document.getElementById("prev-page").disabled = page <= 1;
+        document.getElementById("next-page").disabled = page >= totalPages;
+      }
+
+      document.getElementById("prev-page").addEventListener("click", () => {
+        if (page > 1) {
+          page--;
+          loadOrders();
+        }
+      });
+
+      document.getElementById("next-page").addEventListener("click", () => {
+        const maxPage = Math.ceil(totalCount / pageSize);
+        if (page < maxPage) {
+          page++;
+          loadOrders();
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", loadOrders);
+      document
+        .getElementById("adminLogoutBtn")
+        .addEventListener("click", (e) => {
+          // Clear all localStorage items (or only specific keys if you want)
+          localStorage.clear();
+
+          // Optionally, you can redirect after logout
+          window.location.href = "admin-login.html";
+        });
+    </script>
+  </body>
+</html>

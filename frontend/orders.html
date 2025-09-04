@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+  <head>
+    <meta charset="utf-8" />
+    <title>My Orders - Barab Restaurant</title>
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,shrink-to-fit=no"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="assets/img/favicons/apple-icon-57x57.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/img/favicons/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="assets/css/app.min.css" />
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      #filter-status {
+        min-width: 160px;
+        border-radius: 2em;
+        background: #faf8f2;
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="14" viewBox="0 0 20 20" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7.293 8.293a1 1 0 011.414 0L10 9.586l1.293-1.293a1 1 0 011.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 1.3rem center;
+        background-size: 1.1em 1.1em;
+        cursor: pointer;
+      }
+      table.cart_table th,
+      table.cart_table td {
+        vertical-align: top;
+        padding: 0.8rem 0.75rem;
+      }
+      td.products-cell {
+        max-width: 320px;
+        white-space: normal;
+        line-height: 1.3;
+      }
+      .feedback-form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.7em;
+        padding: 1.1em 1em 1.1em 1.1em;
+        background: #fcf9f2;
+        border-radius: 16px;
+        min-width: 280px;
+      }
+      .feedback-form label {
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 0.2em;
+      }
+      .rating-stars {
+        display: flex;
+        gap: 5px;
+        font-size: 1.4em;
+        cursor: pointer;
+        margin-bottom: 0.2em;
+        flex-direction: row-reverse; /* Reverse the row order */
+      }
+      .rating-stars input {
+        display: none;
+      }
+      .rating-stars label {
+        color: #e5dfc8;
+        cursor: pointer;
+        transition: color 0.15s;
+      }
+      .rating-stars input:checked ~ label,
+      .rating-stars label.selected {
+        color: #fcba03;
+      }
+      .rating-stars label:hover,
+      .rating-stars label:hover ~ label {
+        color: #ffc700;
+      }
+      .feedback-form textarea {
+        width: 100%;
+        min-height: 70px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        padding: 0.6em;
+        font-size: 1rem;
+        background: #f9f6ed;
+      }
+      .feedback-form button {
+        align-self: flex-end;
+        min-width: 110px;
+        font-size: 1rem;
+      }
+      #pagination {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 1rem;
+      }
+      #pagination button {
+        min-width: 90px;
+      }
+      #pagination-info {
+        margin: 0 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="th-header header-default">
+      <div class="header-top d-sm-block d-none">
+        <div class="container">
+          <div
+            class="row justify-content-center justify-content-lg-between align-items-center gy-2"
+          >
+            <div class="col-auto">
+              <div class="header-links">
+                <ul>
+                  <li class="d-none d-xl-inline-block">
+                    <i class="far fa-location-dot"></i>8502 Preston Rd.
+                    Inglewood, Maine 98380
+                  </li>
+                  <li class="d-none d-md-inline-block">
+                    <i class="far fa-envelope-open"></i
+                    ><a href="mailto:info@barab.com">info@barab.com</a>
+                  </li>
+                  <li class="d-none d-sm-inline-block">
+                    <i class="far fa-clock"></i>Opening Hour: Mon to Sat - 9am
+                    to 5pm
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+              <div class="header-links">
+                <ul>
+                  <li class="d-none d-xxl-inline-block header-contact">
+                    <i class="far fa-phone"></i
+                    ><a href="tel:26365479875">+263 6547 9875</a>
+                  </li>
+                  <li>
+                    <div class="th-social">
+                      <a href="https://www.facebook.com/"
+                        ><i class="fab fa-facebook-f"></i
+                      ></a>
+                      <a href="https://www.twitter.com/"
+                        ><i class="fab fa-twitter"></i
+                      ></a>
+                      <a href="https://www.linkedin.com/"
+                        ><i class="fab fa-linkedin-in"></i
+                      ></a>
+                      <a href="https://www.whatsapp.com/"
+                        ><i class="fab fa-whatsapp"></i
+                      ></a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sticky-wrapper">
+        <div class="menu-area">
+          <div class="container">
+            <div class="row align-items-center justify-content-between">
+              <div class="col-auto">
+                <div class="header-logo">
+                  <a href="index.html"
+                    ><img src="assets/img/logo.svg" alt="Barab"
+                  /></a>
+                </div>
+              </div>
+              <div class="col-auto">
+                <nav class="main-menu d-none d-lg-inline-block">
+                  <ul>
+                    <li class="menu-item">
+                      <a href="index.html">Home</a>
+                      <!-- <ul class="mega-menu">
+                        <li>
+                          <div class="container">
+                            <div class="row gy-4">
+                              <div class="col-lg-4">
+                                <div class="mega-menu-box">
+                                  <div class="mega-menu-img">
+                                    <img
+                                      src="assets/img/pages/index.jpg"
+                                      alt="Home One"
+                                    />
+                                    <div class="btn-wrap">
+                                      <a href="index.html" class="th-btn style3"
+                                        >View Demo</a
+                                      >
+                                    </div>
+                                  </div>
+                                  <h3 class="mega-menu-title">
+                                    <a href="index.html"
+                                      >Home I (Fast Food Restaurant)</a
+                                    >
+                                  </h3>
+                                </div>
+                              </div>
+                              <div class="col-lg-4">
+                                <div class="mega-menu-box">
+                                  <div class="mega-menu-img">
+                                    <img
+                                      src="assets/img/pages/home-2.jpg"
+                                      alt="Home Two"
+                                    />
+                                    <div class="btn-wrap">
+                                      <a
+                                        href="home-2.html"
+                                        class="th-btn style3"
+                                        >View Demo</a
+                                      >
+                                    </div>
+                                  </div>
+                                  <h3 class="mega-menu-title">
+                                    <a href="home-2.html"
+                                      >Home II (Pizza Restaurant)</a
+                                    >
+                                  </h3>
+                                </div>
+                              </div>
+                              <div class="col-lg-4">
+                                <div class="mega-menu-box coming">
+                                  <div class="mega-menu-img">
+                                    <img
+                                      src="assets/img/pages/home-3.jpg"
+                                      alt="Home Three"
+                                    />
+                                    <div class="btn-wrap">
+                                      <a href="#" class="th-btn style3"
+                                        >Coming Home</a
+                                      >
+                                    </div>
+                                  </div>
+                                  <h3 class="mega-menu-title">
+                                    <a href="#">Home III (Fine Dining)</a>
+                                  </h3>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul> -->
+                    </li>
+                    <li><a href="shop.html">Menu</a></li>
+                    <li class="menu-item">
+                      <a href="shop.html">Services</a>
+                      <!-- <ul class="sub-menu">
+                        <li><a href="menu-grid.html">Menu grid</a></li>
+                        <li><a href="menu-list.html">Menu List</a></li>
+                      </ul> -->
+                    </li>
+                    <li class="menu-item">
+                      <a href="orders.html">My Orders</a>
+                      <!-- <ul class="sub-menu">
+                        <li class="menu-item-has-children">
+                          <a href="#">Shop</a>
+                          <ul class="sub-menu">
+                            <li><a href="shop.html">Shop</a></li>
+                            <li>
+                              <a href="shop-details.html">Shop Details</a>
+                            </li>
+                            <li><a href="cart.html">Cart Page</a></li>
+                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="wishlist.html">Wishlist</a></li>
+                          </ul>
+                        </li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="team.html">Our Chef</a></li>
+                        <li><a href="team-details.html">Chef Details</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="faq.html">FAQS</a></li>
+                        <li><a href="error.html">Error Page</a></li>
+                      </ul> -->
+                    </li>
+                    <!-- <li class="menu-item-has-children">
+                      <a href="#">BLOG</a>
+                      <ul class="sub-menu">
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="blog-details.html">Blog Details</a></li>
+                      </ul>
+                    </li> -->
+                  </ul>
+                </nav>
+                <div class="header-button d-flex d-lg-none">
+                  <button type="button" class="icon-btn sideMenuToggler">
+                    <span class="badge">5</span>
+                    <i class="fa-regular fa-cart-shopping"></i>
+                  </button>
+                  <button type="button" class="icon-btn th-menu-toggle">
+                    <i class="far fa-bars"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col-auto d-none d-xl-block">
+                <div class="header-button">
+                  <button
+                    type="button"
+                    class="icon-btn cart-btn"
+                    aria-label="View cart"
+                  >
+                    <span class="badge" style="display: none">0</span>
+                    <i class="fa-regular fa-cart-shopping"></i>
+                  </button>
+                  <a
+                    href="profile.html"
+                    class="th-btn btn-mask"
+                    id="profileBtn"
+                    style="display: none"
+                    >PROFILE</a
+                  >
+                  <a
+                    href="login.html"
+                    class="th-btn btn-mask"
+                    id="loginBtn"
+                    style="display: none"
+                    >LOGIN</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div
+      class="breadcumb-wrapper overflow-hidden"
+      data-bg-src="assets/img/bg/breadcumb-bg.jpg"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="breadcumb-content">
+              <h1 class="breadcumb-title">My Orders</h1>
+              <ul class="breadcumb-menu">
+                <li><a href="index.html">Home</a></li>
+                <li>My Orders</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-top space-extra-bottom">
+      <div class="container">
+        <div
+          class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3"
+        >
+          <h2 class="h4 summary-title mb-0">All Orders</h2>
+          <!-- <select id="filter-status" aria-label="Filter orders by status">
+            <option value="All" selected>All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select> -->
+        </div>
+
+        <div class="table-responsive">
+          <table class="cart_table" id="orders-table" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Products (Name × Qty @ Price)</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Feedback</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="pagination" class="mt-4">
+          <button class="th-btn style2" id="prev-page">Prev</button>
+          <span id="pagination-info"></span>
+          <button class="th-btn style2" id="next-page">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer-wrapper footer-default overflow-hidden">
+      <div
+        class="shape-mockup d-none d-xxl-block wow fadeinup"
+        data-top="22%"
+        data-left="0%"
+      >
+        <img src="assets/img/footer/footer-left.png" alt="img" />
+      </div>
+      <div
+        class="shape-mockup moving d-none d-lg-block"
+        data-top="10%"
+        data-right="4%"
+      >
+        <img src="assets/img/shape/footer-top.png" alt="img" />
+      </div>
+      <div class="footer-top">
+        <div class="container">
+          <div class="row gy-40 align-items-center justify-content-center">
+            <div class="col-xl-12">
+              <div class="subscribe-box">
+                <h2 class="footer-top_title">Let’s Talk With Us</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-area">
+        <div class="container">
+          <div class="row gy-4 justify-content-center">
+            <div class="col-md-12 col-lg-6 col-xl-4">
+              <div class="widget footer-widget">
+                <h3 class="widget_title">Contact Info</h3>
+                <div class="icon">
+                  <img src="assets/img/icon/f-title-icon.png" alt="icon" />
+                </div>
+                <div class="th-widget-contact">
+                  <div class="info-box">
+                    <p class="info-box_text">
+                      <span>Phone:</span>
+                      <a href="tel:256369854789" class="info-box_link"
+                        >+256 3698 54789</a
+                      >
+                      <a href="tel:16354786985" class="info-box_link"
+                        >+16354786985</a
+                      >
+                    </p>
+                  </div>
+                  <div class="info-box">
+                    <p class="info-box_text">
+                      <span>Email:</span>
+                      <a href="mailto:info@barab.com" class="info-box_link"
+                        >info@barab.com</a
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-4">
+              <div class="widget widget_nav_menu footer-widget">
+                <h3 class="widget_title">Quick Links</h3>
+                <div class="icon">
+                  <img src="assets/img/icon/f-title-icon.png" alt="icon" />
+                </div>
+                <div class="menu-all-pages-container">
+                  <ul class="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="service.html">Our Services</a></li>
+                    <li><a href="blog.html">News</a></li>
+                    <li><a href="testimonials.html">Testimonials</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-4">
+              <div class="widget widget_download footer-widget">
+                <h4 class="widget_title">Download</h4>
+                <div class="icon">
+                  <img src="assets/img/icon/f-title-icon.png" alt="icon" />
+                </div>
+                <div class="download-widget-wrap">
+                  <a href="https://www.apple.com/app-store/"
+                    ><img src="assets/img/icon/f-app-store.png" alt="img" /> </a
+                  ><a href="https://play.google.com/store/games?device=windows"
+                    ><img src="assets/img/icon/f-google-store.png" alt="img"
+                  /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="copyright-wrap">
+        <div class="container">
+          <div class="copy-right-content">
+            <div class="copyright-text-wrap">
+              <p class="copyright-text">
+                <i class="fal fa-copyright"></i> Copyright 2025
+                <a href="index.html">Barab</a>. All Rights Reserved.
+              </p>
+            </div>
+            <div class="footer-bottom-logo">
+              <a href="index.html"
+                ><img src="assets/img/logo.svg" alt="img"
+              /></a>
+            </div>
+            <div class="footer-card">
+              <img src="assets/img/icon/f-card.png" alt="img " />
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/vendor/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/app.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <!-- <script src="script.js"></script> -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loggedIn = localStorage.getItem("loggedIn") === "true";
+
+        if (!loggedIn) {
+          // Not admin, redirect to homepage
+          window.location.href = "login.html";
+        }
+      });
+
+      let orders = [];
+      let page = 1;
+      const pageSize = 5;
+      let totalCount = 0;
+      let selectedStatus = "All";
+
+      // document
+      //   .getElementById("filter-status")
+      //   .addEventListener("change", function () {
+      //     selectedStatus = this.value;
+      //     page = 1;
+      //   });
+      loadOrders();
+      toggleAuthButtons();
+      updateCartBadge();
+
+      document.querySelector(".cart-btn").addEventListener("click", () => {
+        window.location.href = "cart.html";
+      });
+
+      function updateCartBadge() {
+        // const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        // const badge = document.querySelector(".cart-btn .badge");
+
+        // const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        // if (totalQuantity > 0) {
+        //   badge.textContent = totalQuantity;
+        //   badge.style.display = "inline-block";
+        // } else {
+        //   badge.style.display = "none"; // Hide badge if cart empty
+        // }
+        const badge = document.querySelector(".cart-btn .badge");
+        if (!badge) return;
+
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const totalQuantity = cart.reduce(
+          (sum, item) => sum + item.quantity,
+          0
+        );
+
+        if (totalQuantity > 0) {
+          badge.textContent = totalQuantity;
+          badge.style.display = "inline-block";
+        } else {
+          badge.style.display = "none";
+        }
+      }
+
+      function toggleAuthButtons() {
+        // Check for a login marker, e.g., 'loggedIn' or 'username'
+        const isLoggedIn = localStorage.getItem("loggedIn"); // or 'username', depending on your system
+        if (isLoggedIn) {
+          // Show Profile, Hide Login
+          document.getElementById("profileBtn").style.display = "inline-block";
+          document.getElementById("loginBtn").style.display = "none";
+        } else {
+          // Show Login, Hide Profile
+          document.getElementById("profileBtn").style.display = "none";
+          document.getElementById("loginBtn").style.display = "inline-block";
+        }
+      }
+
+      async function loadOrders() {
+        let url = `http://localhost:3000/api/order/user/${localStorage.userName}?page=${page}&page_size=${pageSize}`;
+        if (selectedStatus && selectedStatus !== "All") {
+          url += `&status=${encodeURIComponent(selectedStatus)}`;
+        }
+        try {
+          const res = await fetch(url);
+          const data = await res.json();
+
+          orders = data.orders || [];
+          totalCount = data.totalCount || 0;
+          renderOrders();
+          updatePagination();
+        } catch (err) {
+          console.error("Failed to load orders", err);
+          document.querySelector("#orders-table tbody").innerHTML =
+            "<tr><td colspan='7'>Failed to load orders.</td></tr>";
+        }
+      }
+
+      function renderOrders() {
+        const tbody = document.querySelector("#orders-table tbody");
+        tbody.innerHTML = "";
+
+        if (orders.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='7'>No orders found.</td></tr>";
+          return;
+        }
+
+        orders.forEach((order) => {
+          const productsText = order.order_items
+            .map(
+              (i) =>
+                `${i.product_name} × ${i.quantity} @ ${
+                  typeof i.price === "number" ? i.price.toFixed(2) : "N/A"
+                }`
+            )
+            .join(", ");
+
+          const hasFeedback =
+            order.feedback && Object.keys(order.feedback).length > 0;
+          const prevFeedback = hasFeedback ? order.feedback : {};
+          const prevRating = prevFeedback.rating || 0;
+          const prevComments = prevFeedback.comments || "";
+
+          const showFeedbackForm =
+            order.status &&
+            order.status.toLowerCase() === "completed" &&
+            !hasFeedback;
+
+          // Generate filled stars HTML for existing feedback
+          function generateStars(rating) {
+            let starsHtml = "";
+            for (let i = 1; i <= 5; i++) {
+              starsHtml += `<span style="color: ${
+                i <= rating ? "#fcba03" : "#e0dede"
+              }; font-size: 1.3em;">&#9733;</span>`;
+            }
+            return starsHtml;
+          }
+
+          let feedbackCellContent = "";
+
+          if (showFeedbackForm) {
+            feedbackCellContent = `
+        <form data-order-id="${order.id}" class="feedback-form">
+          <label>Your Rating</label>
+          <div class="rating-stars">
+            <input type="radio" id="star5-${order.id}" name="rating" value="5" />
+            <label for="star5-${order.id}" title="5 stars">&#9733;</label>
+            <input type="radio" id="star4-${order.id}" name="rating" value="4" />
+            <label for="star4-${order.id}" title="4 stars">&#9733;</label>
+            <input type="radio" id="star3-${order.id}" name="rating" value="3" />
+            <label for="star3-${order.id}" title="3 stars">&#9733;</label>
+            <input type="radio" id="star2-${order.id}" name="rating" value="2" />
+            <label for="star2-${order.id}" title="2 stars">&#9733;</label>
+            <input type="radio" id="star1-${order.id}" name="rating" value="1" />
+            <label for="star1-${order.id}" title="1 star">&#9733;</label>
+          </div>
+          <label>Your Feedback</label>
+          <textarea name="comments" placeholder="Leave your feedback" required></textarea>
+          <button type="submit" class="th-btn style2 btn-sm mt-2">Submit</button>
+        </form>`;
+          } else if (hasFeedback) {
+            feedbackCellContent = `
+        <div>
+          <div style="margin-bottom: 0.4em;">${generateStars(prevRating)}</div>
+          <strong>Your Feedback:</strong>
+          <div>${prevComments || "<em>No comments provided.</em>"}</div>
+        </div>`;
+          } else {
+            feedbackCellContent = `<em>Not available</em>`;
+          }
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+      <td>${order.id}</td>
+      <td class="products-cell">${productsText}</td>
+      <td>Rs ${order.total_amount.toFixed(2)}</td>
+      <td>${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</td>
+      <td>${new Date(order.created_at).toLocaleString()}</td>
+      <td>${new Date(order.updated_at).toLocaleString()}</td>
+      <td>${feedbackCellContent}</td>
+    `;
+
+          tbody.appendChild(tr);
+        });
+      }
+
+      document
+        .querySelector("#orders-table tbody")
+        .addEventListener("submit", async function (e) {
+          if (e.target.classList.contains("feedback-form")) {
+            e.preventDefault();
+            const form = e.target;
+            const orderId = form.getAttribute("data-order-id");
+            const comments = form.comments.value.trim();
+            const rating = form.querySelector(
+              'input[name="rating"]:checked'
+            )?.value;
+
+            if (!comments) return alert("Please enter feedback.");
+            if (!rating) return alert("Please select a rating.");
+
+            try {
+              const res = await fetch("http://localhost:3000/api/feedback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  order_id: orderId,
+                  user_id: JSON.parse(localStorage.userInfo).id, // Replace with your user ID logic
+                  comments,
+                  rating: parseInt(rating),
+                }),
+              });
+              const data = await res.json();
+
+              if (!res.ok) throw new Error(data.error || "Failed to submit");
+
+              alert("Feedback submitted. Thank you!");
+              loadOrders();
+            } catch (err) {
+              alert("Error submitting feedback: " + err.message);
+            }
+          }
+        });
+
+      function updatePagination() {
+        const info = document.getElementById("pagination-info");
+        const maxPage = Math.max(1, Math.ceil(totalCount / pageSize));
+        info.textContent = ` Page ${page} of ${maxPage} (Total: ${totalCount}) `;
+        document.getElementById("prev-page").disabled = page <= 1;
+        document.getElementById("next-page").disabled = page >= maxPage;
+      }
+
+      document.getElementById("prev-page").onclick = function () {
+        if (page > 1) {
+          page--;
+          loadOrders();
+        }
+      };
+
+      document.getElementById("next-page").onclick = function () {
+        const maxPage = Math.max(1, Math.ceil(totalCount / pageSize));
+        if (page < maxPage) {
+          page++;
+          loadOrders();
+        }
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadOrders();
+      });
+    </script>
+  </body>
+</html>
