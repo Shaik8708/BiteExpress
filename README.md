@@ -2,6 +2,8 @@ Welcome to Bite Express.
 
 DB dependency - [Watch this to download sqlite db](https://www.youtube.com/watch?v=IhrqPOB77_8)
 
+Create table queries are available [here.](https://gist.github.com/Shaik8708/dc2936a6bf17765e4fe7984797fd759f)
+
 Node 22.18.0 is used for this project.
 
 To clone this project from main branch and run it.
