@@ -26,23 +26,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       checkoutBtn.textContent = "Place Order";
       // Remove href to disable navigation
       checkoutBtn.removeAttribute("href");
-
-      // checkoutBtn.addEventListener("click", (e) => {
-      //   e.preventDefault();
-
-      //   // Show order placed popup/modal - example using alert or a custom modal
-      //   if (confirm("Your order has been placed successfully!")) {
-      //     // Clear cart items (assuming localStorage.cartItems holds cart data)
-      //     localStorage.removeItem("cart");
-
-      //     // Clear badge count - implement as per your app
-      //     updateCartBadge(); // make sure this function resets badge to zero or hide
-
-      //     // Optionally, refresh or redirect to homepage or orders page
-      //     // location.reload();
-      //     window.location.href = "orders.html";
-      //   }
-      // });
     }
   } else {
     if (checkoutBtn) {
@@ -243,6 +226,9 @@ async function loadProducts(category = "", page = 1, pageSize = 8) {
             <h3 class="product-title">
               <a href="#">${product.name}</a>
             </h3>
+            <h5 class="product-title">
+              <spa>${product.description}</spa>
+            </h5>
             <span class="price">Rs ${product.price.toFixed(2)}</span>
           </div>
         </div>
